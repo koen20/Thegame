@@ -17,6 +17,7 @@ function multiplayer.load()
 	connection = "Connecting to server..."
 	name = math.random(1,100000)
 	multiplayer.player = name
+	local parms
 end
 
 function multiplayer.move(dt)

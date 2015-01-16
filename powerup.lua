@@ -24,7 +24,7 @@ function powerup.generate(dt)
 		powerup.timer = 0
 		powerup.timerLim = math.random(9,15)
 		powerup.side = math.random(1,5)
-		powerup.random = math.random(1,4)
+		powerup.random = math.random(1,5)
 	end
 end
 function powerup.shielddraw()

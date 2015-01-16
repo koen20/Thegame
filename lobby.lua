@@ -38,7 +38,7 @@ function lobby.update(dt)
 			players = data
 			players = tonumber(players)
 		else
-			players = "no connection"
+			--players = "no connection"
 		end
 		lobbyupdatetime = 0
 	end
@@ -51,11 +51,16 @@ function lobby.join(dt)
 		data, msg = udp:receive()
 		if data then
 			players = data
+			players = tonumber(players)
 		end
 		lobbyrefreshtime = 0
 	end
-	if players == 2 or players > 2 then
-		lobbyrefresh = false
-		gamestate = "multiplayer"
+	players = tonumber(players)
+	print(players)
+	if players ~= nil then
+		if players == 2 or players > 2 then
+			lobbyrefresh = false
+			gamestate = "multiplayer"
+		end
 	end
 end
