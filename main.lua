@@ -17,7 +17,6 @@ require "lobby"
 world = {}
 
 function love.load()
-	score_load()
 	--check os
 	os_string = love.system.getOS()
 	print(os_string)
@@ -26,6 +25,11 @@ function love.load()
 	else
 		version = "pc"
 	end
+	--network
+	address, port = "192.168.2.45", 8091
+	udp = socket.udp()
+	udp:settimeout(0.01)
+	udp:setpeername(address, port)
 	--sound
 	pause.load()
 	pausex = screenWidth - 800
@@ -156,6 +160,8 @@ function love.update(dt)
 	if gamestate == "multiplayer" then
 		multiplayer.move(dt)
 		multiplayer.refresh(dt)
+		multiplayer.reset(dt)
+		multiplayer.dead()
 	end
 	if gamestate == "menu" then
 		player.nethighscore()

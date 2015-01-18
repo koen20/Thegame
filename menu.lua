@@ -49,7 +49,6 @@ function button_click(x,y)
 		y < v.y + large:getHeight(v.text) then
 			if gamestate == "menu" then
 				if v.action == "play" then
-					score_load()
 					gamestate = "playing"
 				end
 				if v.action == "multiplayer" then

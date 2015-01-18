@@ -148,7 +148,6 @@ function player.nethighscore()
 	local score = tonumber(player.score)
 	local nhighscore = tonumber(networkhighscore)
 		if nhighscore == 0 then
-			score_load()
 			local dg = string.format("%s %s %f %s %s %f %f", 'score', 'no_entity', score, 'no_command', multiplayer.player, 0, 0)
 			local snd = udp:send(dg)
 			print(dg)

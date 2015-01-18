@@ -1,9 +1,5 @@
 lobby = {}
 function lobby_load()
-	address, port = "home.whhoesj.nl", 8091
-	udp = socket.udp()
-	udp:settimeout(0.01)
-	udp:setpeername(address, port)
 	lobbyx = 1
 	lobbyy = screenHeight - 600
 	lobbywidth = 1200

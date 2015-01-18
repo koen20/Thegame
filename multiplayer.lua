@@ -13,7 +13,9 @@ function multiplayer.load()
 	multiplayer2_x = 2000
 	multiplayer2_y = 2000
 	update_time = 0
-	updaterate = 0.001
+	updaterate = 0.03
+	resettime = 0
+	resettimlim = 1
 	connection = "Connecting to server..."
 	name = math.random(1,100000)
 	multiplayer.player = name
@@ -99,9 +101,25 @@ function multiplayer.draw()
 			love.graphics.setColor(255,255,255)
 			love.graphics.draw(playeri, v.x, v.y)
 		end
+		if v.entity == "enemy" then
+			love.graphics.setColor(255,255,255)
+			love.graphics.draw(enemyp, v.x, v.y)
+		end
     end
     love.graphics.setColor(255,255,255)
 	love.graphics.draw(playeri, multiplayer.x, multiplayer.y)
+end
+function multiplayer.dead()
+	for i, v in pairs(world) do
+		for ia, va in pairs(world) do
+			if v.entity == "player" and va == "enemy" then
+				if v.x + 31 > va.x and v.x < va.x + 75 and v.y + 63 > va.y and v.y < va.y + 75 then
+						world["enemy" .. va.id] = nil
+						multiplayer.health = multiplayer.health - 1
+				end
+			end
+		end
+	end
 end
 function multiplayer.refresh(dt)
 	update_time = update_time + dt
@@ -111,6 +129,14 @@ function multiplayer.refresh(dt)
 		local snd = udp:send(dg)
 		multiplayer.update()
 		update_time = 0
+	end
+end
+function multiplayer.reset(dt)
+	resettime = resettime + dt
+	if resettime > resettimlim then
+		print("ja")
+		world = {}
+		resettime = 0
 	end
 end
 function multiplayer.update()
@@ -125,19 +151,4 @@ function multiplayer.update()
 	else
 		connection = "Connecting to server..."
 	end
-end
-
-function score_load()
-	address, port = "home.whhoesj.nl", 8091
-	udp = socket.udp()
-	udp:settimeout(1)
-	udp:setpeername(address, port)
-end
-function multiplayer_network()
-	address, port = "home.whhoesj.nl", 8091
-	xreceive = "noreceive"
-	yreceive = "noreceive"
-	udp = socket.udp()
-	udp:settimeout(0.01)
-	udp:setpeername(address, port)
 end
