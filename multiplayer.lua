@@ -8,16 +8,16 @@ function multiplayer.load()
 	multiplayer.height = 63
 	multiplayer.health = 3
 	multiplayer.score = 0
-	multiplayer.bullets = 40
+	multiplayer.bullets = 40000
 	multiplayer.highscore = 0
 	multiplayer2_x = 2000
 	multiplayer2_y = 2000
 	update_time = 0
-	updaterate = 0.03
+	updaterate = 0.09
 	resettime = 0
-	resettimlim = 1
+	resettimlim = 0.8
 	connection = "Connecting to server..."
-	name = math.random(1,100000)
+	name = math.random(1,1000000)
 	multiplayer.player = name
 	local parms
 end
@@ -106,19 +106,22 @@ function multiplayer.draw()
 			love.graphics.draw(enemyp, v.x, v.y)
 		end
     end
-    love.graphics.setColor(255,255,255)
-	love.graphics.draw(playeri, multiplayer.x, multiplayer.y)
+    --love.graphics.setColor(255,255,255)
+	--love.graphics.draw(playeri, multiplayer.x, multiplayer.y)
 end
 function multiplayer.dead()
 	for i, v in pairs(world) do
 		for ia, va in pairs(world) do
-			if v.entity == "player" and va == "enemy" then
+			if v.entity == "player" and va.entity == "enemy" then
 				if v.x + 31 > va.x and v.x < va.x + 75 and v.y + 63 > va.y and v.y < va.y + 75 then
-						world["enemy" .. va.id] = nil
+						world = {}
 						multiplayer.health = multiplayer.health - 1
 				end
 			end
 		end
+	end
+	if multiplayer.health < 1 then
+		gamestate = "menu"
 	end
 end
 function multiplayer.refresh(dt)
@@ -134,7 +137,6 @@ end
 function multiplayer.reset(dt)
 	resettime = resettime + dt
 	if resettime > resettimlim then
-		print("ja")
 		world = {}
 		resettime = 0
 	end
