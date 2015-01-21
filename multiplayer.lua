@@ -13,7 +13,7 @@ function multiplayer.load()
 	multiplayer2_x = 2000
 	multiplayer2_y = 2000
 	update_time = 0
-	updaterate = 0.09
+	updaterate = 0.05
 	resettime = 0
 	resettimlim = 0.8
 	connection = "Connecting to server..."
@@ -142,15 +142,17 @@ function multiplayer.reset(dt)
 	end
 end
 function multiplayer.update()
-	data, msg = udp:receive()
-	if data then
-		ent, entity, parms = data:match("^(%S*) (%S*) (.*)")
-		local x, y = parms:match("^(%-?[%d.e]*) (%-?[%d.e]*)$")
-		assert(x and y)
-		x, y = tonumber(x), tonumber(y)
-		world[ent] = {x=x, y=y,entity = entity}
-		connection = "Connected"
-	else
-		connection = "Connecting to server..."
-	end
+	repeat
+		data, msg = udp:receive()
+		if data then
+			ent, entity, parms = data:match("^(%S*) (%S*) (.*)")
+			local x, y = parms:match("^(%-?[%d.e]*) (%-?[%d.e]*)$")
+			assert(x and y)
+			x, y = tonumber(x), tonumber(y)
+			world[ent] = {x=x, y=y,entity = entity}
+			connection = "Connected"
+		else
+			connection = "Connecting to server..."
+		end
+	until not data
 end
