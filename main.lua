@@ -26,7 +26,7 @@ function love.load()
 		version = "pc"
 	end
 	--network
-	address, port = "home.whhoesj.nl", 8091
+	address, port = "localhost", 8091
 	udp = socket.udp()
 	udp:settimeout(0.01)
 	udp:setpeername(address, port)

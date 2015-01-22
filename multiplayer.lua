@@ -13,13 +13,15 @@ function multiplayer.load()
 	multiplayer2_x = 2000
 	multiplayer2_y = 2000
 	update_time = 0
-	updaterate = 0.05
+	updaterate = 0.04
 	resettime = 0
 	resettimlim = 0.8
 	connection = "Connecting to server..."
 	name = math.random(1,1000000)
 	multiplayer.player = name
 	local parms
+	timeout = 0
+	timeoutlim = 5
 end
 
 function multiplayer.move(dt)
@@ -106,15 +108,13 @@ function multiplayer.draw()
 			love.graphics.draw(enemyp, v.x, v.y)
 		end
     end
-    --love.graphics.setColor(255,255,255)
-	--love.graphics.draw(playeri, multiplayer.x, multiplayer.y)
 end
 function multiplayer.dead()
 	for i, v in pairs(world) do
 		for ia, va in pairs(world) do
 			if v.entity == "player" and va.entity == "enemy" then
 				if v.x + 31 > va.x and v.x < va.x + 75 and v.y + 63 > va.y and v.y < va.y + 75 then
-						world = {}
+						world[i] = nil
 						multiplayer.health = multiplayer.health - 1
 				end
 			end
@@ -136,9 +136,11 @@ function multiplayer.refresh(dt)
 end
 function multiplayer.reset(dt)
 	resettime = resettime + dt
-	if resettime > resettimlim then
-		world = {}
-		resettime = 0
+	for i, v in pairs(world) do
+		v.time = v.time + dt
+		if v.time > 0.09 then
+			world[i] = nil
+		end
 	end
 end
 function multiplayer.update()
@@ -149,10 +151,14 @@ function multiplayer.update()
 			local x, y = parms:match("^(%-?[%d.e]*) (%-?[%d.e]*)$")
 			assert(x and y)
 			x, y = tonumber(x), tonumber(y)
-			world[ent] = {x=x, y=y,entity = entity}
+			world[ent] = {x=x, y=y,entity = entity,time = 0}
 			connection = "Connected"
+			timeout = 0
 		else
-			connection = "Connecting to server..."
+			timeout = timeout + 1
+			if timeout > timeoutlim then
+				connection = "Lost connection! Connecting to server..."
+			end
 		end
 	until not data
 end
