@@ -121,6 +121,8 @@ function multiplayer.dead()
 		end
 	end
 	if multiplayer.health < 1 then
+		world = {}
+		multiplayer.load()
 		gamestate = "menu"
 	end
 end
@@ -151,6 +153,9 @@ function multiplayer.update()
 			local x, y = parms:match("^(%-?[%d.e]*) (%-?[%d.e]*)$")
 			assert(x and y)
 			x, y = tonumber(x), tonumber(y)
+			if entity == 'score' then
+				multiplayer.score = x
+			end
 			world[ent] = {x=x, y=y,entity = entity,time = 0}
 			connection = "Connected"
 			timeout = 0
