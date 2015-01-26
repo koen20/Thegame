@@ -17,11 +17,13 @@ function multiplayer.load()
 	resettime = 0
 	resettimlim = 0.8
 	connection = "Connecting to server..."
-	name = math.random(1,1000000)
+	name = 'koenkoe'--math.random(1,1000000)
 	multiplayer.player = name
 	local parms
 	timeout = 0
 	timeoutlim = 5
+	losttime = 0
+	lostlim = 25
 end
 
 function multiplayer.move(dt)
@@ -104,8 +106,14 @@ function multiplayer.draw()
 			love.graphics.draw(playeri, v.x, v.y)
 		end
 		if v.entity == "enemy" then
-			love.graphics.setColor(255,255,255)
-			love.graphics.draw(enemyp, v.x, v.y)
+			enemydraw = 2 --math.random(1,2)
+			if enemydraw == 1 then
+				love.graphics.setColor(255,255,255)
+				love.graphics.draw(enemyp, v.x, v.y)
+			elseif enemydraw == 2 then
+				love.graphics.setColor(255,255,255)
+				love.graphics.draw(enemyp2, v.x, v.y)
+			end
 		end
     end
 end
@@ -163,6 +171,12 @@ function multiplayer.update()
 			timeout = timeout + 1
 			if timeout > timeoutlim then
 				connection = "Lost connection! Connecting to server..."
+				losttime = losttime + 0.1
+				if losttime > lostlim then
+					world = {}
+					losttime = 0
+					gamestate = "menu"
+				end
 			end
 		end
 	until not data

@@ -25,6 +25,7 @@ function lobby.draw()
 	love.graphics.print("players: " .. players .. "/2",500,200)
 end
 function lobby.update(dt)
+	udp:settimeout(0)
 	lobbyupdatetime = lobbyupdatetime + dt
 	if lobbyupdatetime > lobbyupdatetimelim then
 		local dg = string.format("%s %s %f %s %s %f %f", 'lobbystatus', 'no_entity', score, 'no_command', multiplayer.player, 0, 0)

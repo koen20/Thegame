@@ -28,7 +28,7 @@ function love.load()
 	--network
 	address, port = "localhost", 8091
 	udp = socket.udp()
-	udp:settimeout(0.01)
+	udp:settimeout(0)
 	udp:setpeername(address, port)
 	--sound
 	pause.load()
