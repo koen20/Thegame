@@ -26,9 +26,9 @@ function love.load()
 		version = "pc"
 	end
 	--network
-	address, port = "localhost", 8091
+	address, port = "server.koenhabets.tk", 8091
 	udp = socket.udp()
-	udp:settimeout(0)
+	udp:settimeout(0.4)
 	udp:setpeername(address, port)
 	--sound
 	pause.load()
