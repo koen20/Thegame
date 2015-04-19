@@ -64,13 +64,13 @@ function level_update(dt)
 	end
 end
 function level1.update(dt)
-	enemy.generate(4,6,dt,100)
+	enemy.generate(3,5,dt,100)
 end
 function level2.update(dt)
-	enemy.generate(3,6,dt,130)
+	enemy.generate(3,4,dt,130)
 end
 function level3.update(dt)
-	enemy.generate(2,5,dt,140)
+	enemy.generate(2,4,dt,140)
 end
 function level4.update(dt)
 	enemy.generate(2,3,dt,150)

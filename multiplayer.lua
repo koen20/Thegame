@@ -13,15 +13,16 @@ function multiplayer.load()
 	multiplayer2_x = 2000
 	multiplayer2_y = 2000
 	update_time = 0
-	updaterate = 0.04
+	updaterate = 0.09
 	resettime = 0
-	resettimlim = 0.8
+	resettimlim = 2
 	connection = "Connecting to server..."
-	name = 'koenkoe'--math.random(1,1000000)
+	math.randomseed( os.time() )
+	name = math.random(1,1000000)
 	multiplayer.player = name
 	local parms
 	timeout = 0
-	timeoutlim = 5
+	timeoutlim = 10
 	losttime = 0
 	lostlim = 25
 end
